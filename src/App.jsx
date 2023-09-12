@@ -1,19 +1,19 @@
 import './App.css';
 import Header from './components/header/Header';
-import { MainWrapper, Main} from './styled';
+import { MainWrapper, Main, Container} from './styled';
 import { Lessons } from './pages/lessons';
 import Footer from './components/footer/footer';
 
 function App() {
   return (
     <MainWrapper>
-      <div className='container'>
+      <Container>
         <Header />
-        <Main className='main'>
+        <Main>
           <Lessons />
         </Main>
         <Footer/>
-      </div>
+      </Container>
     </MainWrapper>
   );
 }

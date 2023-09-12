@@ -3,12 +3,15 @@ import React, { useState } from "react";
 import { Button, FavoriteButton, InfoButton, InfoContainer, InfoContainerButtons, InfoContainerName, VideoCard, VideoCardContainer, VideoPreview } from "./cardStyled";
 import ModalComponent from "../modal/Modal";
 
+
+// Function to extract the video ID from a YouTube link
 function getVideoIdFromLink(link) {
   const url = new URL(link);
   const searchParams = new URLSearchParams(url.search);
   return searchParams.get("v");
 }
 
+// Function to update the favorite status of a lesson in a list
 function updateLessonFavoriteInList(list, key, newFavoriteValue){
   return list.map(lesson => {
     if (lesson.id === key){
@@ -34,27 +37,34 @@ const Card = ({ lesson, color, updateListsFunc, originalList, lessonsList }) => 
     },
   };
 
+  // Function to update the favorite status of a lesson
   async function updateFavorite(newFavoriteValue){
     try {
+      // Update the lesson's favorite status using the lessons API
       await lessons.put(id, { favorite: newFavoriteValue });
 
+      // Update the original and lessons list with the new favorite status
       const updatedOriginalList = updateLessonFavoriteInList(originalList, id, newFavoriteValue);
       const updatedLessonsList = updateLessonFavoriteInList(lessonsList, id, newFavoriteValue);
 
+      // Call the parent component's update function
       updateListsFunc(updatedOriginalList, updatedLessonsList);
     } catch(err) {
       console.log(err);
     }
   }
 
+  // Function to open the lesson link in a new tab
   const openLessonLinkInNewTab = () => {
     window.open(link, '_blank');
   };
 
+  // Function to open the modal for more information about the lesson
   const openModal = () => {
     setIsModalOpen(true);
   };
 
+  // Function to close the modal
   const closeModal = () => {
     setIsModalOpen(false);
   };

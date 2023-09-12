@@ -11,9 +11,9 @@ function Header() {
             </LogoWrapper>
             <NavBar>
                 <NavList>
-                    <NavItem>Головна</NavItem>
-                    <NavItem>Мої уроки</NavItem>
-                    <NavItem>Блог</NavItem>
+                    <NavItem>Main</NavItem>
+                    <NavItem>My lessons</NavItem>
+                    <NavItem>Blog</NavItem>
                 </NavList>
                 <UploadButton title="Завантажити новий урок">file_upload</UploadButton>
             </NavBar>

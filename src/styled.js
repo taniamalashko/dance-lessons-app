@@ -1,5 +1,11 @@
 import styled from "@emotion/styled";
 
+export const Container = styled('div')({
+    width: '95%',
+    padding: '0 15px',
+    margin: '0 auto',
+})
+
 export const MainWrapper = styled('div')(() => ({
     display: 'flex',
     flexDirection: 'column',
