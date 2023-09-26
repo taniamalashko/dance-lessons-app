@@ -6,7 +6,7 @@ import LessonsCards from '../../components/LessonsCards/LessonsCards';
 
 export default function Lessons() {
   // State variables to manage lessons list, original list, loading state, and error
-  const [lessonsList, setLessonsList] = useState([]);
+  const [likedLessonsList, setLikedLessonsList] = useState([]);
   const [originalList, setOriginalList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -18,7 +18,9 @@ export default function Lessons() {
     try {
       const response = await lessons.get();
       setOriginalList(response);
-      setLessonsList(response);
+
+      const likedLessons = response.filter((lesson) => lesson.favorite);
+      setLikedLessonsList(likedLessons);
     } catch (err) {
       setError(err);
     } finally {
@@ -32,9 +34,10 @@ export default function Lessons() {
   }, []);
 
   // Function to update the original and lessons list
-  function updateLists(newOriginalList, newLessonsList) {
+  function updateLists(newOriginalList, newLikedLessonsList) {
     setOriginalList(newOriginalList);
-    setLessonsList(newLessonsList);
+
+    setLikedLessonsList(newLikedLessonsList.filter((lesson) => lesson.favorite));
   }
 
   // Render loading spinner while data is being fetched
@@ -53,10 +56,13 @@ export default function Lessons() {
 
   // Render the main content with filter button and cards
   return (
-    <LessonsCards
-    lessonsList={lessonsList}
-    originalList={originalList}
-    updateListsFunc={updateLists}
-    />
+    <div>
+      <h2>Liked lessons</h2>
+      <LessonsCards
+      lessonsList={likedLessonsList}
+      originalList={originalList}
+      updateListsFunc={updateLists}
+      />
+    </div>
   );
 }

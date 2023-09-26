@@ -3,6 +3,11 @@ body {
   box-sizing: border-box;
 }
 
+.active li{
+  color: black !important;
+  font-weight: 400;
+}
+
 @media (max-width: 599px) {
 }
 

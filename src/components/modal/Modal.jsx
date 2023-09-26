@@ -9,7 +9,9 @@ import {
 } from './modalStyled';
 
 const ModalComponent = ({ isOpen, onRequestClose, lesson }) => {
-  const { name, description, category, author, difficulty } = lesson;
+  const {
+    name, description, category, author, difficulty,
+  } = lesson;
 
   return (
     <Modal
@@ -22,23 +24,23 @@ const ModalComponent = ({ isOpen, onRequestClose, lesson }) => {
         <ModalTitle>Подробная информация</ModalTitle>
         <ModalContent>
           <div>
-            <label>Имя:</label>
+            <label>Name:</label>
             <p>{name}</p>
           </div>
           <div>
-            <label>Описание:</label>
+            <label>Description:</label>
             <p>{description}</p>
           </div>
           <div>
-            <label>Категория:</label>
+            <label>Category:</label>
             <p>{category}</p>
           </div>
           <div>
-            <label>Автор:</label>
+            <label>Author:</label>
             <p>{author}</p>
           </div>
           <div>
-            <label>Сложность:</label>
+            <label>Difficulty:</label>
             <p>{difficulty}</p>
           </div>
         </ModalContent>

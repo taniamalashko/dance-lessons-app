@@ -1,8 +1,9 @@
-import React from "react";
-import { Copyright, FcbkIcon, FooterContainer, InstaIcon, ListInline, ListItem, SocialLine, SocialLink, TwtrIcon, YoutbIcon } from "./footerStyled";
+import React from 'react';
+import {
+  Copyright, FcbkIcon, FooterContainer, InstaIcon, ListInline, ListItem, SocialLine, SocialLink, TwtrIcon, YoutbIcon,
+} from './footerStyled';
 
-const Footer = () => {
-    return <FooterContainer>
+const Footer = () => <FooterContainer>
         <SocialLine>
             <SocialLink><InstaIcon></InstaIcon></SocialLink>
             <SocialLink><TwtrIcon></TwtrIcon></SocialLink>
@@ -17,7 +18,6 @@ const Footer = () => {
             <ListItem><a href="#">Privacy Police</a></ListItem>
         </ListInline>
         <Copyright>Dance Lessons © 2023</Copyright>
-    </FooterContainer>
-}
+    </FooterContainer>;
 
-export default Footer
+export default Footer;

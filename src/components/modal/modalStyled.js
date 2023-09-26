@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const customStyles = {
   content: {
@@ -68,5 +68,5 @@ export const ModalContent = styled('div')({
   p: {
     marginTop: '5px',
     color: '#333',
-  }
+  },
 });
