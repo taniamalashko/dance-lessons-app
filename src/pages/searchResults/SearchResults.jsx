@@ -1,13 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { lessons } from '../../api/lessons/lessons';
-import LoadingComponent from '../../components/LoadingContainer/LoadingComponent';
 import ErrorComponent from '../../components/errorComponent/ErrorComponent';
 import LessonsCards from '../../components/LessonsCards/LessonsCards';
+import LoadingComponent from '../../components/LoadingContainer/LoadingComponent';
 
-export default function Lessons() {
-  // State variables to manage lessons list, original list, loading state, and error
-  const [lessonsList, setLessonsList] = useState([]);
+function SearchResults() {
+  const url = useLocation();
+  const query = new URLSearchParams(url.search);
+  const searchQuery = query.get('query');
+
   const [originalList, setOriginalList] = useState([]);
+  const [lessonsList, setLessonsList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -18,7 +22,9 @@ export default function Lessons() {
     try {
       const response = await lessons.get();
       setOriginalList(response);
-      setLessonsList(response);
+
+      const filteredLessons = response.filter((lesson) => lesson.name.toLowerCase().includes(searchQuery.toLowerCase()));
+      setLessonsList(filteredLessons);
     } catch (err) {
       setError(err);
     } finally {
@@ -30,6 +36,16 @@ export default function Lessons() {
   useEffect(() => {
     fetchLessons();
   }, []);
+
+  useEffect(() => {
+    if (searchQuery) {
+      const filteredLessons = originalList.filter((lesson) => lesson.name.toLowerCase().includes(searchQuery.toLowerCase()));
+      setLessonsList(filteredLessons);
+    } else {
+      // If searchQuery is empty, set lessonsList to the originalList
+      setLessonsList(originalList);
+    }
+  }, [searchQuery, originalList]);
 
   // Function to update the original and lessons list
   function updateLists(newOriginalList, newLessonsList) {
@@ -51,7 +67,12 @@ export default function Lessons() {
     );
   }
 
-  // Render the main content with filter button and cards
+  if (lessonsList.length === 0) {
+    return (
+      <h2>Not found</h2>
+    );
+  }
+
   return (
     <LessonsCards
     lessonsList={lessonsList}
@@ -60,3 +81,5 @@ export default function Lessons() {
     />
   );
 }
+
+export default SearchResults;

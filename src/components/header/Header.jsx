@@ -1,28 +1,45 @@
-import React from "react";
-import { HeaderContainer, LoginAvatar, LoginEl, LoginTitle, LogoImage, LogoWrapper, NavBar, NavItem, NavList, UploadButton } from "./headerStyled";
-import logoImg from "../../assets/logoImg.png";
-import defaultLogo from "../../assets/defaultAvatar.png";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import {
+  HeaderContainer,
+  LoginAvatar,
+  LoginEl,
+  LoginTitle,
+  LogoImage,
+  LogoWrapper,
+  NavBar,
+  NavItem,
+  NavList,
+  UploadButton,
+  UploadButtonIcon,
+} from './headerStyled';
+import logoImg from '../../assets/logoImg.png';
+import defaultLogo from '../../assets/defaultAvatar.png';
+import SearchInput from '../searchInput/SearchInput';
 
 function Header() {
-    return (
+  return (
         <HeaderContainer>
             <LogoWrapper>
-                <LogoImage src={logoImg} alt="logo image"/>
+                <NavLink to='/'><LogoImage src={logoImg} alt="logo image"/></NavLink>
             </LogoWrapper>
             <NavBar>
                 <NavList>
-                    <NavItem>Main</NavItem>
-                    <NavItem>My lessons</NavItem>
-                    <NavItem>Blog</NavItem>
+                    <NavLink to='/' exact activeClassName='activeNavLink'><NavItem>MAIN</NavItem></NavLink>
+                    <NavLink to='/MyLessons' activeClassName='activeNavLink'><NavItem>MY LESSONS</NavItem></NavLink>
+                    <NavLink to='/Blog' activeClassName='activeNavLink'><NavItem>BLOG</NavItem></NavLink>
                 </NavList>
-                <UploadButton title="Завантажити новий урок">file_upload</UploadButton>
+                <UploadButton>
+                    <UploadButtonIcon title="Завантажити новий урок">file_upload</UploadButtonIcon>
+                </UploadButton>
+                <SearchInput />
             </NavBar>
             <LoginEl>
                 <LoginAvatar src={defaultLogo}></LoginAvatar>
                 <LoginTitle>Log In</LoginTitle>
             </LoginEl>
         </HeaderContainer>
-    )
+  );
 }
 
-export default Header
+export default Header;
