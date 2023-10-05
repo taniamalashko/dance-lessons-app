@@ -18,7 +18,7 @@ const PlayerModalComponent = ({
   updateFavorite,
 }) => {
   const {
-    link, favorite,
+    youtube_link, favorite,
   } = lesson;
 
   const opts = {
@@ -34,7 +34,7 @@ const PlayerModalComponent = ({
       ariaHideApp={false}
     >
       <ModalContainer>
-        <VideoPreview videoId={getVideoIdFromLink(link)} opts={opts}/>
+        <VideoPreview videoId={getVideoIdFromLink(youtube_link)} opts={opts}/>
         <ModalBar>
           <CloseButton onClick={onRequestClose}>✖</CloseButton>
           <Button><FavoriteButton

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   HeaderContainer,
   LoginAvatar,
@@ -16,8 +17,20 @@ import {
 import logoImg from '../../assets/logoImg.png';
 import defaultLogo from '../../assets/defaultAvatar.png';
 import SearchInput from '../searchInput/SearchInput';
+import LoginModal from '../loginModal/LoginModal';
+import { authActions } from '../../store/services/auth';
+import { clearUserDataFromLocalStorage } from '../../utils/storage';
 
 function Header() {
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const { isAuthorized, userData: { role } } = useSelector((state) => state.authReducer);
+  const dispatch = useDispatch();
+
+  const logOut = () => {
+    dispatch(authActions.logout());
+    clearUserDataFromLocalStorage();
+  };
+
   return (
         <HeaderContainer>
             <LogoWrapper>
@@ -27,17 +40,29 @@ function Header() {
                 <NavList>
                     <NavLink to='/' exact activeClassName='activeNavLink'><NavItem>MAIN</NavItem></NavLink>
                     <NavLink to='/MyLessons' activeClassName='activeNavLink'><NavItem>MY LESSONS</NavItem></NavLink>
-                    <NavLink to='/Blog' activeClassName='activeNavLink'><NavItem>BLOG</NavItem></NavLink>
                 </NavList>
+                {role === 'teacher' && (
                 <UploadButton>
                     <UploadButtonIcon title="Завантажити новий урок">file_upload</UploadButtonIcon>
-                </UploadButton>
+                </UploadButton>)
+                }
                 <SearchInput />
             </NavBar>
             <LoginEl>
                 <LoginAvatar src={defaultLogo}></LoginAvatar>
-                <LoginTitle>Log In</LoginTitle>
+                {!isAuthorized && (
+                    <LoginTitle onClick={() => { setIsLoginModalOpen(true); }}>Log In</LoginTitle>
+                )}
+                {isAuthorized && (
+                    <LoginTitle onClick={ logOut }>Log Out</LoginTitle>
+                )}
             </LoginEl>
+
+            {isLoginModalOpen && (
+            <LoginModal
+            isOpen={isLoginModalOpen}
+            onRequestClose={() => { setIsLoginModalOpen(false); }}/>
+            )}
         </HeaderContainer>
   );
 }

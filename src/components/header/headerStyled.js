@@ -84,6 +84,9 @@ export const LoginEl = styled('div')(() => ({
   padding: '0 5px',
   border: '0.5px solid #ebebeb',
   borderRadius: '50px',
+  '& a': {
+    textDecoration: 'none',
+  },
 }));
 
 export const LoginAvatar = styled('img')(() => ({
@@ -96,4 +99,9 @@ export const LoginAvatar = styled('img')(() => ({
 export const LoginTitle = styled('span')(() => ({
   color: 'lightgray',
   whiteSpace: 'nowrap',
+  cursor: 'pointer',
+  transition: '0.3s ease',
+  '&:hover': {
+    color: 'black',
+  },
 }));

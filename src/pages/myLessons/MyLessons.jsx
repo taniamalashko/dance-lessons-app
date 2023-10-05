@@ -31,7 +31,7 @@ export default function Lessons() {
   // Fetch lessons data when the component mounts
   useEffect(() => {
     fetchLessons();
-  }, []);
+  }, [fetchLessons]);
 
   // Function to update the original and lessons list
   function updateLists(newOriginalList, newLikedLessonsList) {

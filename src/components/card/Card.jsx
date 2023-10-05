@@ -29,7 +29,7 @@ const Card = ({
   lesson, color, updateListsFunc, originalList, lessonsList,
 }) => {
   const {
-    id, name, link, favorite: lessonFavorite,
+    id, title, youtube_link, favorite: lessonFavorite,
   } = lesson;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -77,10 +77,10 @@ const Card = ({
   return (
     <VideoCardContainer>
         <VideoCard>
-          <VideoPreview disabled videoId={getVideoIdFromLink(link)} opts={opts}/>
+          <VideoPreview disabled videoId={getVideoIdFromLink(youtube_link)} opts={opts}/>
           <InfoContainer color={color}>
-            <InfoContainerName title={name}>
-             {name.length > 30 ? `${name.substring(0, 30)}...` : name}
+            <InfoContainerName title={title}>
+             {title.length > 30 ? `${title.substring(0, 30)}...` : title}
             </InfoContainerName>
             <InfoContainerButtons>
               <Button><InfoButton onClick={() => { openModal(setIsModalOpen); }}>more_horiz</InfoButton></Button>
