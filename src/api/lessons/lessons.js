@@ -1,20 +1,37 @@
 import axiosInstance from '../service';
 
+const headers = {
+  'Content-Type': 'application/json',
+};
+
 const lessons = {
-  get: () => axiosInstance.get('/lessons')
+  getAllLessons: () => axiosInstance.get('lessons/lessons/')
     .then(({ data }) => data)
     .catch((err) => {
       throw new Error(err);
     }),
-  post: (params) => axiosInstance.post('/lessons', params)
+  getOneLesson: (lessonId) => axiosInstance.get(`lessons/${lessonId}`)
+    .then(({ data }) => data)
+    .catch((error) => {
+      throw new Error(error);
+    }),
+  createNewLesson: (lessonData, authToken) => axiosInstance
+    .post('lessons/create/', lessonData, { headers: { ...headers, Authorization: `Bearer ${authToken}` } })
     .then(({ data }) => data)
     .catch((err) => {
       throw new Error(err);
     }),
-  put: (lessonId, updatedLesson) => axiosInstance.put(`/lessons/${lessonId}`, updatedLesson)
+  editLesson: (lessonId, newData, authToken) => axiosInstance
+    .patch(`lessons/${lessonId}/update/`, newData, { headers: { ...headers, Authorization: `Bearer ${authToken}` } })
     .then(({ data }) => data)
-    .catch((err) => {
-      throw new Error(err);
+    .catch((error) => {
+      throw new Error(error);
+    }),
+  deleteLesson: (lessonId, authToken) => axiosInstance
+    .delete(`lessons/${lessonId}/delete/`, { headers: { ...headers, Authorization: `Bearer ${authToken}` } })
+    .then(({ data }) => data)
+    .catch((error) => {
+      throw new Error(error);
     }),
 };
 

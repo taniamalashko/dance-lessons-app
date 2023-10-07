@@ -1,14 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { lessons } from '../../api/lessons/lessons';
+import { useDispatch, useSelector } from 'react-redux';
 import LoadingComponent from '../../components/LoadingContainer/LoadingComponent';
 import ErrorComponent from '../../components/errorComponent/ErrorComponent';
 import LessonsCards from '../../components/LessonsCards/LessonsCards';
+import { lessonsThunks } from '../../store/services/lessons';
+import FilterBar from '../../components/filterBar/FilterBar';
 
 export default function Lessons() {
   // State variables to manage lessons list, original list, loading state, and error
-  const [lessonsList, setLessonsList] = useState([]);
-  const [originalList, setOriginalList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line max-len
+  const { lessons: lessonsList, isInitialized } = useSelector((state) => state.lessonsReducer);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   // Function to fetch lessons data from an API
@@ -16,26 +19,20 @@ export default function Lessons() {
     setLoading(true);
 
     try {
-      const response = await lessons.get();
-      setOriginalList(response);
-      setLessonsList(response);
+      await dispatch(lessonsThunks.fetchLessonsThunk());
     } catch (err) {
       setError(err);
     } finally {
       setLoading(false);
     }
-  }, [setOriginalList, setLoading, setError]);
+  }, [dispatch]);
 
   // Fetch lessons data when the component mounts
   useEffect(() => {
-    fetchLessons();
+    if (!isInitialized) {
+      fetchLessons();
+    }
   }, []);
-
-  // Function to update the original and lessons list
-  function updateLists(newOriginalList, newLessonsList) {
-    setOriginalList(newOriginalList);
-    setLessonsList(newLessonsList);
-  }
 
   // Render loading spinner while data is being fetched
   if (loading) {
@@ -53,10 +50,11 @@ export default function Lessons() {
 
   // Render the main content with filter button and cards
   return (
+    <>
+    <FilterBar />
     <LessonsCards
     lessonsList={lessonsList}
-    originalList={originalList}
-    updateListsFunc={updateLists}
     />
+    </>
   );
 }

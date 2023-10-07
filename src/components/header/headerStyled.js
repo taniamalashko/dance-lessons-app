@@ -67,6 +67,9 @@ export const UploadButton = styled('div')({
   borderLeft: '1px solid #ccc',
   borderRadius: '20px',
   padding: '0 10px',
+  '&:hover': {
+    color: 'black',
+  },
 });
 
 export const UploadButtonIcon = styled(Icon)(() => ({
@@ -84,6 +87,9 @@ export const LoginEl = styled('div')(() => ({
   padding: '0 5px',
   border: '0.5px solid #ebebeb',
   borderRadius: '50px',
+  '& a': {
+    textDecoration: 'none',
+  },
 }));
 
 export const LoginAvatar = styled('img')(() => ({
@@ -96,4 +102,9 @@ export const LoginAvatar = styled('img')(() => ({
 export const LoginTitle = styled('span')(() => ({
   color: 'lightgray',
   whiteSpace: 'nowrap',
+  cursor: 'pointer',
+  transition: '0.3s ease',
+  '&:hover': {
+    color: 'black',
+  },
 }));

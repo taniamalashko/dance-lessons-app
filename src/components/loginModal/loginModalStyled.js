@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import FormTextInput from '../forms/FormTextInput';
 
 export const customStyles = {
   content: {
@@ -8,11 +9,12 @@ export const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    width: '350px',
+    maxWidth: '400px',
     padding: '20px',
     borderRadius: '10px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
     backgroundColor: '#f0f0f0',
+    zIndex: 2,
   },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
@@ -37,6 +39,7 @@ export const CloseButton = styled('button')({
 });
 
 export const ModalContainer = styled('div')({
+  zIndex: 2,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -49,15 +52,23 @@ export const ModalTitle = styled('h2')({
   color: '#333',
 });
 
+export const InputsContainer = styled('div')(() => ({
+  flex: '1', // Это свойство заставит элемент расшириться на всё доступное пространство внутри родительского контейнера
+  display: 'flex', // Добавим display: flex, чтобы элементы внутри InputsContainer могли выравниваться вертикально
+  flexDirection: 'column', // Это свойство выровняет дочерние элементы вертикально
+}));
+
+export const TextInput = styled(FormTextInput)(() => ({
+  marginBottom: '20px',
+}));
+
 export const ModalContent = styled('div')({
+  width: '300px',
   display: 'flex',
   flexDirection: 'column',
   textAlign: 'left',
   marginTop: '20px',
-
-  div: {
-    marginBottom: '15px',
-  },
+  minHeight: '307px',
 
   label: {
     textAlign: 'center',

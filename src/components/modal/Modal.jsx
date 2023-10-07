@@ -10,7 +10,7 @@ import {
 
 const ModalComponent = ({ isOpen, onRequestClose, lesson }) => {
   const {
-    name, description, category, author, difficulty,
+    title, description, category, difficulty,
   } = lesson;
 
   return (
@@ -25,7 +25,7 @@ const ModalComponent = ({ isOpen, onRequestClose, lesson }) => {
         <ModalContent>
           <div>
             <label>Name:</label>
-            <p>{name}</p>
+            <p>{title}</p>
           </div>
           <div>
             <label>Description:</label>
@@ -34,10 +34,6 @@ const ModalComponent = ({ isOpen, onRequestClose, lesson }) => {
           <div>
             <label>Category:</label>
             <p>{category}</p>
-          </div>
-          <div>
-            <label>Author:</label>
-            <p>{author}</p>
           </div>
           <div>
             <label>Difficulty:</label>
