@@ -27,7 +27,7 @@ function LessonsCards({
   useEffect(() => {
     dispatch(filterActions.setStyleFilter(''));
     dispatch(filterActions.setDifficultyFilter(''));
-  }, []);
+  }, [dispatch]);
 
   const backgroundColors = ['rgb(243, 243, 136)', 'rgb(241, 201, 208)', 'rgb(178, 178, 222)', 'rgb(178, 222, 184)'];
 

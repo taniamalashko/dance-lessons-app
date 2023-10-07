@@ -20,6 +20,7 @@ const PlayerModalComponent = ({
   isFavoriteProps,
 }) => {
   const {
+    // eslint-disable-next-line camelcase
     youtube_link, id: lessonId,
   } = lesson;
 
@@ -32,7 +33,7 @@ const PlayerModalComponent = ({
       await dispatch(lessonsThunks.toggleLessonLike({ lessonId, userId, authToken }));
       setIsFavorite(!isFavorite);
     } catch (err) {
-      alert('Failed to like.');
+      throw new Error(err);
     }
   };
 
