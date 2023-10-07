@@ -35,7 +35,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
     try {
       await dispatch(authThunks.logInThunk(userData));
     } catch (err) {
-      console.log(err);
+      throw new Error(err);
     } finally {
       setLoading(false);
     }

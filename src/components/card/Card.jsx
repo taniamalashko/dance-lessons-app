@@ -20,6 +20,7 @@ const Card = ({
   lesson, color, isUploaded,
 }) => {
   const {
+    // eslint-disable-next-line camelcase
     title, youtube_link, likes, id: lessonId,
   } = lesson;
 
@@ -47,7 +48,7 @@ const Card = ({
       await dispatch(lessonsThunks.toggleLessonLike({ lessonId, userId, authToken }));
       setIsFavorite(!isFavorite);
     } catch (err) {
-      // eslint-disable-next-line no-unused-expressions
+      // eslint-disable-next-line no-unused-expressions, no-alert
       isAuthorized ? alert('Failed to like.') : alert('You must log in.');
     }
   };
@@ -56,7 +57,7 @@ const Card = ({
     try {
       await dispatch(lessonsThunks.deleteLesson({ lessonId, authToken }));
     } catch (err) {
-      alert('Failed to delete lesson.');
+      throw new Error(err);
     }
   };
 
