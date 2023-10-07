@@ -10,7 +10,7 @@ export const FormContainer = styled('div')(() => ({
   flexDirection: 'column',
   alignItems: 'center',
   width: '500px',
-  minHeight: '700px',
+  minHeight: '600px',
   border: '1px solid lightgrey',
   borderRadius: '20px',
   margin: '0 auto 30px',
@@ -25,6 +25,9 @@ export const FormTitle = styled('h2')(() => ({
 export const FormControlContainer = styled(FormControl)(() => ({
   width: '80%',
   margin: '0 auto',
+  '& label': {
+    zIndex: 0,
+  },
 }));
 
 export const Textarea = styled(TextareaAutosize)(() => ({

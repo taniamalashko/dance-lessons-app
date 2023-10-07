@@ -1,4 +1,4 @@
-import { passwordRegex } from './regexp';
+import { passwordRegex, youtubeLinkPattern } from './regexp';
 
 const textsRules = {
   required: (fieldName) => `${fieldName} is required.`,
@@ -8,6 +8,7 @@ const textsRules = {
 
 // eslint-disable-next-line max-len
 const passwordPattern = { value: passwordRegex, message: 'The password must contain only Latin characters, at least one uppercase character, and at least one number.' };
+const linkPattern = { value: youtubeLinkPattern, message: 'Incorrect link.' };
 
 export const registrationRules = {
   firstName: {
@@ -30,5 +31,19 @@ export const registrationRules = {
   about: {
     required: { value: true, message: textsRules.required('About field') },
     maxLength: { value: 200, message: textsRules.maxLength('About field', 200) },
+  },
+};
+
+export const lessonCreatingRules = {
+  title: {
+    required: { value: true, message: textsRules.required('Title') },
+    maxLength: { value: 30, message: textsRules.maxLength('Title', 30) },
+  },
+  description: {
+    required: { value: true, message: textsRules.required('Description') },
+    maxLength: { value: 200, message: textsRules.maxLength('Description', 200) },
+  },
+  link: {
+    pattern: linkPattern,
   },
 };

@@ -13,7 +13,7 @@ import {
   FormControlContainer,
   FormTitle,
   Textarea,
-} from './styledSignUpForm';
+} from '../../components/forms/formStyled';
 
 const SignUpForm = () => {
   const {
@@ -77,11 +77,12 @@ const SignUpForm = () => {
           rules={registrationRules.password}
           label='Password'
           isPassword={true}
+          style={{ marginBottom: '30px' }}
         />
         <Controller
           control={control}
           name="role"
-          defaultValue="Student"
+          defaultValue="student"
           render={({ field }) => (
             <FormControlContainer>
               <InputLabel htmlFor="role">Role</InputLabel>
@@ -110,17 +111,19 @@ const SignUpForm = () => {
                 {...field}
                 minRows={5}
                 placeholder="Tell us about yourself..."
-                onChange={(e) => {
-                  field.onChange(e);
-                  setValue('about', e.target.value);
-                }}
                 error={!!error}
-                helperText={error ? error.message : ''}
+                style={{ marginBottom: error ? '0px' : '30px' }}
               />
+              {!!error && (
+                <p style={{ color: 'red' }}>About is required and it can`t be more then 200 symbols.</p>
+              )}
             </FormControlContainer>
           )}
         />
-        <Button onClick={handleSubmit(onSubmit)}>Sign up</Button>
+        <Button
+        onClick={handleSubmit(onSubmit)}
+        style={{ marginBottom: '20px' }}
+        >Sign up</Button>
       </FormContainer>
     </Container>
   );

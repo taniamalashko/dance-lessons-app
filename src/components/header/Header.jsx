@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   HeaderContainer,
@@ -25,10 +25,12 @@ function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const { isAuthorized, userData: { role } } = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const logOut = () => {
     dispatch(authActions.logout());
     clearUserDataFromLocalStorage();
+    navigate('/');
   };
 
   return (
@@ -38,13 +40,22 @@ function Header() {
             </LogoWrapper>
             <NavBar>
                 <NavList>
-                    <NavLink to='/' exact activeClassName='activeNavLink'><NavItem>MAIN</NavItem></NavLink>
-                    <NavLink to='/MyLessons' activeClassName='activeNavLink'><NavItem>MY LESSONS</NavItem></NavLink>
+                    <NavLink to='/'><NavItem>MAIN</NavItem></NavLink>
+                    {isAuthorized && (
+                        <NavLink to='/MyLessons'><NavItem>FAVORITE</NavItem></NavLink>
+                    )}
+                    {role === 'teacher' && (
+                        <NavLink to='/MyUploadedLessons'><NavItem>UPLOADED</NavItem></NavLink>
+                    )}
                 </NavList>
                 {role === 'teacher' && (
-                <UploadButton>
-                    <UploadButtonIcon title="Завантажити новий урок">file_upload</UploadButtonIcon>
-                </UploadButton>)
+                    <NavLink
+                    to='/createLesson'
+                    style={{ color: 'grey', height: '100%' }}>
+                        <UploadButton>
+                            <UploadButtonIcon title="Завантажити новий урок">file_upload</UploadButtonIcon>
+                        </UploadButton>
+                    </NavLink>)
                 }
                 <SearchInput />
             </NavBar>

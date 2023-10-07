@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
+import { useDispatch, useSelector } from 'react-redux';
+import { lessonsThunks } from '../../store/services/lessons';
 import getVideoIdFromLink from '../../utils/getVideoIdFromLink';
 import {
   Button,
@@ -15,11 +17,24 @@ const PlayerModalComponent = ({
   isOpen,
   onRequestClose,
   lesson,
-  updateFavorite,
+  isFavoriteProps,
 }) => {
   const {
-    youtube_link, favorite,
+    youtube_link, id: lessonId,
   } = lesson;
+
+  const [isFavorite, setIsFavorite] = useState(isFavoriteProps);
+  const { userData: { id: userId }, token: authToken } = useSelector((state) => state.authReducer);
+  const dispatch = useDispatch();
+
+  const toggleFavorite = async () => {
+    try {
+      await dispatch(lessonsThunks.toggleLessonLike({ lessonId, userId, authToken }));
+      setIsFavorite(!isFavorite);
+    } catch (err) {
+      alert('Failed to like.');
+    }
+  };
 
   const opts = {
     height: '100%',
@@ -38,8 +53,8 @@ const PlayerModalComponent = ({
         <ModalBar>
           <CloseButton onClick={onRequestClose}>✖</CloseButton>
           <Button><FavoriteButton
-          favorite={favorite}
-          onClick={() => updateFavorite(!favorite)}>
+          favorite={isFavorite}
+          onClick={toggleFavorite}>
             favorite
           </FavoriteButton></Button>
         </ModalBar>

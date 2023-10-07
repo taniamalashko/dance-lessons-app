@@ -67,6 +67,9 @@ export const UploadButton = styled('div')({
   borderLeft: '1px solid #ccc',
   borderRadius: '20px',
   padding: '0 10px',
+  '&:hover': {
+    color: 'black',
+  },
 });
 
 export const UploadButtonIcon = styled(Icon)(() => ({

@@ -4,6 +4,7 @@ import LoadingComponent from '../../components/LoadingContainer/LoadingComponent
 import ErrorComponent from '../../components/errorComponent/ErrorComponent';
 import LessonsCards from '../../components/LessonsCards/LessonsCards';
 import { lessonsThunks } from '../../store/services/lessons';
+import FilterBar from '../../components/filterBar/FilterBar';
 
 export default function Lessons() {
   // State variables to manage lessons list, original list, loading state, and error
@@ -49,8 +50,11 @@ export default function Lessons() {
 
   // Render the main content with filter button and cards
   return (
+    <>
+    <FilterBar />
     <LessonsCards
     lessonsList={lessonsList}
     />
+    </>
   );
 }

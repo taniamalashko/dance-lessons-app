@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import getVideoIdFromLink from '../../utils/getVideoIdFromLink';
-import { lessons } from '../../api/lessons/lessons';
 import {
   Button,
   FavoriteButton,
@@ -14,26 +14,20 @@ import {
 } from './cardStyled';
 import ModalComponent from '../modal/Modal';
 import PlayerModalComponent from '../PlayerModal/PlayerModal';
-
-// Function to update the favorite status of a lesson in a list
-function updateLessonFavoriteInList(list, key, newFavoriteValue) {
-  return list.map((lesson) => {
-    if (lesson.id === key) {
-      return { ...lesson, favorite: newFavoriteValue };
-    }
-    return lesson;
-  });
-}
+import { lessonsThunks } from '../../store/services/lessons';
 
 const Card = ({
-  lesson, color, updateListsFunc, originalList, lessonsList,
+  lesson, color, isUploaded,
 }) => {
   const {
-    id, title, youtube_link, favorite: lessonFavorite,
+    title, youtube_link, likes, id: lessonId,
   } = lesson;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPlayerModalOpen, setIsPlayerModalOpen] = useState(false);
+  const { isAuthorized, userData: { id: userId }, token: authToken } = useSelector((state) => state.authReducer);
+  const [isFavorite, setIsFavorite] = useState(isAuthorized && likes.includes(userId));
+  const dispatch = useDispatch();
 
   const opts = {
     height: '200px',
@@ -48,31 +42,32 @@ const Card = ({
   };
 
   // Function to update the favorite status of a lesson
-  async function updateFavorite(newFavoriteValue) {
+  const toggleFavorite = async () => {
     try {
-      // Update the lesson's favorite status using the lessons API
-      await lessons.put(id, { favorite: newFavoriteValue });
-
-      // Update the original and lessons list with the new favorite status
-      const updatedOriginalList = updateLessonFavoriteInList(originalList, id, newFavoriteValue);
-      const updatedLessonsList = updateLessonFavoriteInList(lessonsList, id, newFavoriteValue);
-
-      // Call the parent component's update function
-      updateListsFunc(updatedOriginalList, updatedLessonsList);
+      await dispatch(lessonsThunks.toggleLessonLike({ lessonId, userId, authToken }));
+      setIsFavorite(!isFavorite);
     } catch (err) {
-      alert('Not liked');
+      // eslint-disable-next-line no-unused-expressions
+      isAuthorized ? alert('Failed to like.') : alert('You must log in.');
     }
-  }
-
-  // Function to open the modal for more information about the lesson
-  const openModal = (setFunc) => {
-    setFunc(true);
   };
 
-  // Function to close the modal
-  const closeModal = (setFunc) => {
-    setFunc(false);
+  const handleDelete = async () => {
+    try {
+      await dispatch(lessonsThunks.deleteLesson({ lessonId, authToken }));
+    } catch (err) {
+      alert('Failed to delete lesson.');
+    }
   };
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      setIsFavorite(false);
+    } else {
+      // eslint-disable-next-line no-unused-expressions
+      setIsFavorite(likes.includes(userId));
+    }
+  }, [isAuthorized, likes, userId]);
 
   return (
     <VideoCardContainer>
@@ -83,11 +78,12 @@ const Card = ({
              {title.length > 30 ? `${title.substring(0, 30)}...` : title}
             </InfoContainerName>
             <InfoContainerButtons>
-              <Button><InfoButton onClick={() => { openModal(setIsModalOpen); }}>more_horiz</InfoButton></Button>
-              <Button><InfoButton onClick={() => { openModal(setIsPlayerModalOpen); }}>play_circle</InfoButton></Button>
+              <Button><InfoButton onClick={() => setIsModalOpen(true)}>more_horiz</InfoButton></Button>
+              <Button><InfoButton onClick={() => setIsPlayerModalOpen(true)}>play_circle</InfoButton></Button>
+              {isUploaded && <Button><InfoButton onClick={ handleDelete }>delete</InfoButton></Button>}
               <Button><FavoriteButton
-              favorite={lessonFavorite}
-              onClick={() => updateFavorite(!lessonFavorite)}>favorite
+              favorite={isFavorite}
+              onClick={toggleFavorite}>favorite
               </FavoriteButton></Button>
             </InfoContainerButtons>
           </InfoContainer>
@@ -96,16 +92,17 @@ const Card = ({
         {isModalOpen && (
           <ModalComponent
           isOpen={isModalOpen}
-          onRequestClose={() => { closeModal(setIsModalOpen); }}
+          onRequestClose={() => setIsModalOpen(false)}
           lesson={lesson} />
         )}
 
         {isPlayerModalOpen && (
           <PlayerModalComponent
           isOpen={isPlayerModalOpen}
-          onRequestClose={() => { closeModal(setIsPlayerModalOpen); }}
+          onRequestClose={() => setIsPlayerModalOpen(false)}
           lesson={lesson}
-          updateFavorite={updateFavorite}/>
+          toggleFavorite={toggleFavorite}
+          isFavoriteProps={isFavorite}/>
         )}
     </VideoCardContainer>
   );

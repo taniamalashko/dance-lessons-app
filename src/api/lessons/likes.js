@@ -1,14 +1,16 @@
 import axiosInstance from '../service';
 
-const headers = {
-  'Content-Type': 'application/json',
-};
-
 const likesAxios = {
   toggleLikeRequest: (lessonId, authToken) => axiosInstance
-    .post(`lessons/${lessonId}/like/`, { headers: { ...headers, Authorization: `Bearer ${authToken}` } })
+    .post(`lessons/${lessonId}/like/`, null, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
     .then(({ data }) => data)
     .catch((error) => {
+      console.log(error);
       throw new Error(error);
     }),
 };
