@@ -10,7 +10,6 @@ const likesAxios = {
     })
     .then(({ data }) => data)
     .catch((error) => {
-      console.log(error);
       throw new Error(error);
     }),
 };

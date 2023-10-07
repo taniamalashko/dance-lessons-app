@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import {
   Button, InputLabel, MenuItem, Select,
 } from '@mui/material';
@@ -27,9 +28,7 @@ const SignUpForm = () => {
   const onSubmit = async () => {
     try {
       const userData = getValues();
-      console.log(userData);
       const response = await userAxios.registerUser(userData);
-      console.log(response);
 
       if (response.first_name) {
         alert('Registration was successful');
@@ -41,7 +40,7 @@ const SignUpForm = () => {
         navigate('/');
       }
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   };
 

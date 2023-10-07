@@ -32,7 +32,7 @@ export default function Lessons() {
     if (!isInitialized) {
       fetchLessons();
     }
-  }, []);
+  }, [fetchLessons, isInitialized]);
 
   // Render loading spinner while data is being fetched
   if (loading) {

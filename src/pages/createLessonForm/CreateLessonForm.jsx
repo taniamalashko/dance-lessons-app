@@ -45,7 +45,7 @@ const CreateLessonForm = () => {
       navigate('/');
     } catch (err) {
       setError(err);
-      alert('not created');
+      throw new Error(err);
     } finally {
       setLoading(false);
     }
